@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'authentification',
     
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -55,6 +57,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'e_learning_platform_django_rest_soap_graphQL.urls'
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -83,6 +86,16 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+#AUTH_USER_MODEL = 'authentification.User'
+AUTH_USER_MODEL = 'authentification.CustomUser'
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    )
 }
 
 

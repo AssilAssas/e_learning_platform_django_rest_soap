@@ -28,14 +28,21 @@ class AppUserManager(BaseUserManager):
         if not password:
             raise ValueError("Users must have a password")
         email = self.normalize_email(email)
-        user = self.model(email=email)
-        user.role=role
-        user.first_name = first_name
-        user.last_name = last_name
+        user = self.model(email=email ,first_name=first_name, last_name=last_name, role=role)
+       # user.role=role # either student or tuto
+        
+        user.role = role
         user.date_joined = timezone.now()
         user.set_password(password)
         user.save(using=self._db)
         return user
+    def delete_user(self,email):
+        if not email:
+            raise ValueError('Users must have an email address')
+        user = self.get(email=email)
+        user.delete()
+        return user
+    
     def create_superuser(self, email, first_name, last_name, role, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
