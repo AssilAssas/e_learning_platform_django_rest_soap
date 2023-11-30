@@ -136,6 +136,7 @@ class Material(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     upload_date = models.DateField(auto_now_add=True)
     document_type = models.CharField(max_length=150)
+    document = models.FileField(upload_to='materials/',default='default.pdf')  
     class Meta:
         db_table = "material"
         ordering = ["upload_date"]
@@ -145,9 +146,11 @@ class Assignment(models.Model):
     description = models.CharField(max_length=150)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     due_date = models.DateField()
+    graded = models.BooleanField(default=False) 
     class Meta:
         db_table = "assignment"
         ordering = ["due_date"]
+
 class Submission(models.Model):
     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
@@ -165,6 +168,10 @@ class Grade(models.Model):
     class Meta:
         db_table = "grade"
         ordering = ["grade"]
+
+
+
+
 class InteractionHistory(models.Model):
     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -173,6 +180,7 @@ class InteractionHistory(models.Model):
     class Meta:
         db_table = "interaction_history"
         ordering = ["interaction_date"]
+
 class ReadingState(models.Model):
     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
     material = models.ForeignKey(Material, on_delete=models.CASCADE)

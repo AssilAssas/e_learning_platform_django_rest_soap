@@ -10,6 +10,7 @@ django-cors-headers = "*"
 validations = "*"
 authentication = "*"
 psycopg2-binary = "*"
+twilio = "*"
 
 [dev-packages]
 

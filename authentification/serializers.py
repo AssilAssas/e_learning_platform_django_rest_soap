@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
-from .models import Course, Enrollment, Material, Assignment, Submission, Grade, InteractionHistory, ReadingState
+from .models import Course, Enrollment, Material, Assignment, Submission, Grade, InteractionHistory, ReadingState,CustomUser
 
 UserModel = get_user_model()
 
@@ -59,6 +59,25 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        read_only_fields = ['tutor'] 
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['tutor'] = self.context['request'].user.email
+        return representation
+
+class GradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
+        fields = '__all__'
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['student'].queryset = CustomUser.objects.filter(role='student')
+
+
+
+
+
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -80,10 +99,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
         model = Submission
         fields = '__all__'
 
-class GradeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Grade
-        fields = '__all__'
+
 
 class InteractionHistorySerializer(serializers.ModelSerializer):
     class Meta:
