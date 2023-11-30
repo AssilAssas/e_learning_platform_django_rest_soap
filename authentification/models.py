@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser 
 from django.utils import timezone  
+from django.contrib.auth.models import BaseUserManager
+
  
 # Create your models here.
 
@@ -29,7 +31,6 @@ class AppUserManager(BaseUserManager):
             raise ValueError("Users must have a password")
         email = self.normalize_email(email)
         user = self.model(email=email ,first_name=first_name, last_name=last_name, role=role)
-       # user.role=role # either student or tuto
         
         user.role = role
         user.date_joined = timezone.now()
@@ -85,7 +86,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     role = models.CharField(max_length=150)
-    date_joined = models.DateTimeField()
+    date_joined = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     
     groups = models.ManyToManyField(
@@ -112,75 +113,74 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
     
 # Course model 
-# class Course(models.Model):
-#     title = models.CharField(max_length=150, unique=True)
-#     description = models.CharField(max_length=150)
-#     tutor = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
-#     enrollment_capacity = models.IntegerField()
-    
-#     class Meta:
-#         db_table = "course"
-#         ordering = ['title']
+class Course(models.Model):
+    title = models.CharField(max_length=150, unique=True)
+    description = models.CharField(max_length=150)
+    tutor = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    enrollment_capacity = models.IntegerField()
+    class Meta:
+        db_table = "course"
+        ordering = ['title']
         
-# class Enrollment(models.Model):
-#     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-#     enrollment_date = models.DateField(auto_now_add=True)
-#     class Meta:
-#         db_table = "enrollment"
-#         ordering = ["enrollment_date"]
+class Enrollment(models.Model):
+    student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrollment_date = models.DateField(auto_now_add=True)
+    class Meta:
+        db_table = "enrollment"
+        ordering = ["enrollment_date"]
 
 
-# class Material(models.Model):
-#     title = models.CharField(max_length=150)
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-#     upload_date = models.DateField(auto_now_add=True)
-#     document_type = models.CharField(max_length=150)
-#     class Meta:
-#         db_table = "material"
-#         ordering = ["upload_date"]
+class Material(models.Model):
+    title = models.CharField(max_length=150)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    upload_date = models.DateField(auto_now_add=True)
+    document_type = models.CharField(max_length=150)
+    class Meta:
+        db_table = "material"
+        ordering = ["upload_date"]
         
-# class Assignment(models.Model):
-#     title = models.CharField(max_length=150)
-#     description = models.CharField(max_length=150)
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-#     due_date = models.DateField()
-#     class Meta:
-#         db_table = "assignment"
-#         ordering = ["due_date"]
-# class Submission(models.Model):
-#     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
-#     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-#     submission_content = models.CharField(max_length=150)
-#     submission_date = models.DateField(auto_now_add=True)
-#     class Meta:
-#         db_table = "submission"
-#         ordering = ["submission_date"]  
+class Assignment(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.CharField(max_length=150)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    due_date = models.DateField()
+    class Meta:
+        db_table = "assignment"
+        ordering = ["due_date"]
+class Submission(models.Model):
+    student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    submission_content = models.CharField(max_length=150)
+    submission_date = models.DateField(auto_now_add=True)
+    class Meta:
+        db_table = "submission"
+        ordering = ["submission_date"]  
     
-# class Grade(models.Model):
-#     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
-#     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-#     grade = models.IntegerField()
-#     feedback = models.TextField(max_length=150)
-#     class Meta:
-#         db_table = "grade"
-#         ordering = ["grade"]
-# class InteractionHistory(models.Model):
-#     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-#     material = models.ForeignKey(Material, on_delete=models.CASCADE)
-#     interaction_date = models.DateField(auto_now_add=True)
-#     class Meta:
-#         db_table = "interaction_history"
-#         ordering = ["interaction_date"]
-# class ReadingState(models.Model):
-#     student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
-#     material = models.ForeignKey(Material, on_delete=models.CASCADE)
-#     reading_state = models.IntegerField()
-#     last_read_date = models.DateField(auto_now_add=True)
-#     class Meta:
-#         db_table = "reading_state"
-#         ordering = ["reading_state"]
+class Grade(models.Model):
+    student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    grade = models.IntegerField()
+    feedback = models.TextField(max_length=150)
+    class Meta:
+        db_table = "grade"
+        ordering = ["grade"]
+class InteractionHistory(models.Model):
+    student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    interaction_date = models.DateField(auto_now_add=True)
+    class Meta:
+        db_table = "interaction_history"
+        ordering = ["interaction_date"]
+class ReadingState(models.Model):
+    student = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    reading_state = models.IntegerField()
+    last_read_date = models.DateField(auto_now_add=True)
+    class Meta:
+        db_table = "reading_state"
+        ordering = ["reading_state"]
  
 
 
