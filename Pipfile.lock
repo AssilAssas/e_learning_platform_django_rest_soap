@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ca0054896facd9c66829486cec6c378f0571215af0b7aad657321ccee29f5922"
+            "sha256": "b4bbcf01a3e4e8a4bc7423bbd5a3c0e96acb4d721fc684cf1f252c7565414bc0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -292,6 +292,23 @@
             "index": "pypi",
             "markers": "python_version >= '3.6'",
             "version": "==3.14.0"
+        },
+        "dnspython": {
+            "hashes": [
+                "sha256:57c6fbaaeaaf39c891292012060beb141791735dbb4004798328fc2c467402d8",
+                "sha256:8dcfae8c7460a2f84b4072e26f1c9f4101ca20c071649cb7c34e8b6a93d58984"
+            ],
+            "markers": "python_version >= '3.8' and python_version < '4.0'",
+            "version": "==2.4.2"
+        },
+        "email-validator": {
+            "hashes": [
+                "sha256:a4b0bd1cf55f073b924258d19321b1f3aa74b4b5a71a42c305575dba920e1a44",
+                "sha256:c973053efbeddfef924dc0bd93f6e77a1ea7ee0fce935aea7103c7a3d6d2d637"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==2.1.0.post1"
         },
         "flask": {
             "hashes": [
@@ -703,12 +720,12 @@
         },
         "twilio": {
             "hashes": [
-                "sha256:083449b27eea4fe66f690da8dada3f533d954a0704a74858ea788cf28be69019",
-                "sha256:40f8bd012f6fb970adfc46d40d39162b46a337be8f1aacec83af8a450363626f"
+                "sha256:84aae4451386e01a47ac81bb7301d7170e6519bd6e3c3a11a292de77c2dccda2",
+                "sha256:d23e9e952e38adca99da134b27bf7472cf2f850a0ab0eade7f5b6ed34bc04266"
             ],
             "index": "pypi",
             "markers": "python_full_version >= '3.7.0'",
-            "version": "==8.10.2"
+            "version": "==8.10.3"
         },
         "tzdata": {
             "hashes": [
