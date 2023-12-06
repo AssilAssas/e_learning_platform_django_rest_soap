@@ -104,6 +104,7 @@ class CustomUserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
     queryset = CustomUser.objects.all()
     serializer_class = UserModelSerializer
 
+<<<<<<< HEAD
 #Tutor : 
 
 #Create and manage courses 
@@ -205,6 +206,8 @@ def trigger_voice_call(request):
 
 
 
+=======
+>>>>>>> 80f63e9d4f1dd26f5ecbd3a670a105b621c87dd6
 class EnrollmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Enrollment.objects.all()
@@ -234,5 +237,3 @@ class ReadingStateViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ReadingState.objects.all()
     serializer_class = ReadingStateSerializer
-
-    
