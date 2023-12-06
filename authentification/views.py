@@ -5,6 +5,9 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,BasePermission
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
+from django.contrib import admin
+from twilio.rest import Client
+from django.urls import reverse
 from .serializers import (
     UserRegisterSerializer,
     UserLoginSerializer,
@@ -17,7 +20,6 @@ from .validations import ValidationData
 from rest_framework import generics,viewsets
 from django.contrib.auth import get_user_model
 from .models import CustomUser,Course, Enrollment, Material, Assignment, Submission, Grade, InteractionHistory, ReadingState
-
 
 
 UserModel = get_user_model()  
@@ -186,6 +188,14 @@ def trigger_voice_call(request):
         from_="+14435946087"
     )
     return HttpResponse(f"Voice call SID: {call.sid}")
+
+
+
+
+
+
+
+
 
 
 

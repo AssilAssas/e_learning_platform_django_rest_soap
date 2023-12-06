@@ -10,6 +10,7 @@ from .views import (
 )
 
 
+app_name = 'authentification'
 router = DefaultRouter()
 
 #router.register(r'users', CustomUserViewSet, basename='user')
@@ -31,7 +32,7 @@ router.register(r'interactionhistories', InteractionHistoryViewSet, basename='in
 router.register(r'readingstates', ReadingStateViewSet, basename='readingstate')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('manage/', include(router.urls)),
     path('grades/', GradeViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('courses/', CourseViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('courses/<int:pk>/', CourseViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
@@ -41,6 +42,6 @@ urlpatterns = [
     path('login/', UserLogin.as_view(), name='user-login'),
     path('logout/', UserLogout.as_view(), name='user-logout'),
     path('voice/', initiate_voice_call, name='initiate_voice_call'),
-
+   
 
 ]

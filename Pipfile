@@ -12,6 +12,7 @@ validations = "*"
 authentication = "*"
 psycopg2-binary = "*"
 email-validator = "*"
+django-google-analytics-app = "*"
 
 [dev-packages]
 

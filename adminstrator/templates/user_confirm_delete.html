@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Confirm Delete User</h2>
+
+  <p>Are you sure you want to delete the user with the following details?</p>
+  
+  <p>Email: {{ user.email }}</p>
+  <p>First Name: {{ user.first_name }}</p>
+  <p>Last Name: {{ user.last_name }}</p>
+  <p>Role: {{ user.role }}</p>
+  <p>Date Joined: {{ user.date_joined }}</p>
+
+  <form method="post" action="{% url 'user_delete' user_id=user.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+  </form>
+  <p><a href="{% url 'user_list' %}">Cancel</a></p>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>User List</h2>
+  <p><a href="{% url 'user_list' %}">List all Users</a></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Role</th>
+        <th>Date Joined</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.email }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.date_joined }}</td>
+          <td><a href="{% url 'user_edit' user_id=user.id %}">Edit</a></td>
+          <td><a href="{% url 'user_delete' user_id=user.id %}" style="color: red;">Delete</a></td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

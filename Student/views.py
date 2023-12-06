@@ -12,9 +12,7 @@ from .permissions import IsStudent
 def enroll_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
-    # Check if the user is already enrolled in the course
     if not Enrollment.objects.filter(student=request.user, course=course).exists():
-        # Enroll the student in the course
         Enrollment.objects.create(student=request.user, course=course)
         return Response({'status': 'success', 'message': f'Enrolled in {course.title}.'})
     else:
@@ -25,14 +23,12 @@ def enroll_course(request, course_id):
 @permission_classes([IsAuthenticated,IsStudent])
 def view_material(request, material_id):
     material = get_object_or_404(Material, id=material_id)
-    # You may want to add logic to check if the student is enrolled in the course
     
     material_data = {
         'title': material.title,
         'description': material.description,
         'upload_date': material.upload_date,
         'document_type': material.document_type,
-        # Add any additional fields as needed
     }
 
     return Response(material_data)
@@ -87,7 +83,6 @@ def track_interaction(request, course_id, material_id):
     course = get_object_or_404(Course, id=course_id)
     material = get_object_or_404(Material, id=material_id)
     
-    # Log the interaction in the history
     InteractionHistory.objects.create(student=request.user, course=course, material=material)
     
     return Response({'status': 'success', 'message': 'Interaction tracked successfully.'})
